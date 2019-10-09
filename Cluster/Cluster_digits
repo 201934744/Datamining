@@ -63,7 +63,7 @@ def clustering(estimator, name, data):
             ))
              
          
-
+#8 种聚类算法，使用默认参数进行聚类分析
 clustering(cluster.KMeans(init='k-means++', n_clusters=n_digits, n_init=10),
             name="k-means", data=data)
 
