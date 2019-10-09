@@ -1,0 +1,215 @@
+#BY 杨震 2019。10.09
+#20newsgroups数据集是用于文本分类、文本挖据和信息检索研究的国际标准数据集之一。
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.decomposition import TruncatedSVD#对于文字数据，在转化成稀疏矩阵之后，可以用 SVD奇异值分解
+
+#在文本分类之中，首先分词，然后将分词之后的文本进行tfidf计算，并向量化
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import HashingVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.pipeline import make_pipeline#构建管道，pipeline类本身具有fit、predict和score方法
+from sklearn.preprocessing import Normalizer
+from sklearn import metrics
+
+from sklearn import cluster
+
+import logging
+from optparse import OptionParser
+import sys
+from time import time
+
+import numpy as np
+
+#显示进度日志
+# Display progress logs on stdout
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)s %(message)s')
+
+# parse commandline arguments
+#解析命令行参数
+op = OptionParser()
+op.add_option("--lsa",
+              dest="n_components", type="int",
+              help="Preprocess documents with latent semantic analysis.")
+op.add_option("--no-minibatch",
+              action="store_false", dest="minibatch", default=True,
+              help="Use ordinary k-means algorithm (in batch mode).")
+op.add_option("--no-idf",
+              action="store_false", dest="use_idf", default=True,
+              help="Disable Inverse Document Frequency feature weighting.")
+op.add_option("--use-hashing",
+              action="store_true", default=False,
+              help="Use a hashing feature vectorizer")
+op.add_option("--n-features", type=int, default=10000,
+              help="Maximum number of features (dimensions)"
+                   " to extract from text.")
+op.add_option("--verbose",
+              action="store_true", dest="verbose", default=False,
+              help="Print progress reports inside k-means algorithm.")
+
+print(__doc__)
+op.print_help()
+
+
+def is_interactive():
+    return not hasattr(sys.modules['__main__'], '__file__')
+
+
+# work-around for Jupyter notebook and IPython console IPython控制台的解决方案
+argv = [] if is_interactive() else sys.argv[1:]
+(opts, args) = op.parse_args(argv)
+if len(args) > 0:
+    op.error("this script takes no arguments.")
+    sys.exit(1)
+
+
+# #############################################################################
+# Load some categories from the training set
+#从训练集中加载一些类别
+categories = [
+    'alt.atheism',
+    'talk.religion.misc',
+    'comp.graphics',
+    'sci.space',
+]
+# Uncomment the following to do the analysis on all the categories
+# categories = None
+
+print("Loading 20 newsgroups dataset for categories:")
+print(categories)
+
+
+#获取数据集
+#subset：就是train,test,all三种可选，分别对应训练集、测试集和所有样本。
+#categories：只提取出目标类
+#shuffle:是否打乱样本顺序
+#random_state:打乱顺序的随机种子
+dataset = fetch_20newsgroups(subset='all', categories=categories,
+                             shuffle=True, random_state=42)
+#打印获取的数量
+print("%d documents" % len(dataset.data))
+print("%d categories" % len(dataset.target_names))
+print()
+
+labels = dataset.target
+true_k = np.unique(labels).shape[0]
+
+print("Extracting features from the training dataset "
+      "using a sparse vectorizer")
+t0 = time()
+if opts.use_hashing:
+    if opts.use_idf:
+        # Perform an IDF normalization on the output of HashingVectorizer
+        #对HashingVectorizer的输出执行IDF规范化
+        hasher = HashingVectorizer(n_features=opts.n_features,
+                                   stop_words='english', alternate_sign=False,
+                                   norm=None, binary=False)
+        vectorizer = make_pipeline(hasher, TfidfTransformer())
+    else:
+        vectorizer = HashingVectorizer(n_features=opts.n_features,
+                                       stop_words='english',
+                                       alternate_sign=False, norm='l2',
+                                       binary=False)
+else:
+    vectorizer = TfidfVectorizer(max_df=0.5, max_features=opts.n_features,
+                                 min_df=2, stop_words='english',
+                                 use_idf=opts.use_idf)
+X = vectorizer.fit_transform(dataset.data)
+
+print("done in %fs" % (time() - t0))
+print("n_samples: %d, n_features: %d" % X.shape)
+print()
+
+
+
+#向量化结果是规范的，这使得KMeans的行为像球形k-means更好的结果。
+#因为LSA/SVD结果是没有归一化，我们必须重新归一化。
+if opts.n_components:
+    print("Performing dimensionality reduction using LSA")
+    t0 = time()
+    # Vectorizer results are normalized, which makes KMeans behave as
+    # spherical k-means for better results. Since LSA/SVD results are
+    # not normalized, we have to redo the normalization.
+    svd = TruncatedSVD(opts.n_components)
+    normalizer = Normalizer(copy=False)
+    lsa = make_pipeline(svd, normalizer)
+
+    X = lsa.fit_transform(X)
+
+    print("done in %fs" % (time() - t0))
+
+    explained_variance = svd.explained_variance_ratio_.sum()
+    print("Explained variance of the SVD step: {}%".format(
+        int(explained_variance * 100)))
+
+    print()
+
+
+# #############################################################################
+# Do the actual clustering
+#进行实际的聚类
+    
+
+#km = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1,
+#                verbose=opts.verbose)
+
+#t0 = time()
+#km.fit(X)
+#print("done in %0.3fs" % (time() - t0))
+#打印各种评估结果
+#print("NMI: %0.3f" % metrics.normalized_mutual_info_score(labels, km.labels_))
+#print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels, km.labels_))
+#print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
+
+#print()
+print(82 * '_')
+print('alg\t\ttime\tnmi\thomo\tcompl')
+
+
+
+def clustering(estimator, name, data):
+    t0 = time()
+    estimator.fit(X)
+    print('%-9s\t%.2fs\t%.3f\t%.3f\t%.3f'
+          % (name, (time() - t0), 
+#             metrics.normalized_mutual_info_score(labels_true, labels_pred),
+#             metrics.homogeneity_score(labels_true, labels_pred),
+#             metrics.completeness_score(labels_true, labels_pred),
+             
+             metrics.normalized_mutual_info_score(labels, estimator.labels_),
+             metrics.homogeneity_score(labels, estimator.labels_),
+             metrics.completeness_score(labels, estimator.labels_),
+            ))
+       
+      
+#分别运行8种聚类分析算法     
+clustering(cluster.KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1,
+                verbose=opts.verbose),
+            name="k-means", data=X)
+
+clustering(cluster.AffinityPropagation(),
+              name="Aff", data=X)
+
+#clustering(cluster.MeanShift(),
+#              name="MeanShift", data=X)
+
+clustering(cluster.SpectralClustering(),
+              name="SpectralCluster", data=X)
+
+#clustering(cluster.FeatureAgglomeration(),
+ #             name="FeatureAgg", data=X)
+
+
+#clustering(cluster.AgglomerativeClustering(),
+#              name="AggClu", data=X)
+
+
+clustering(cluster.DBSCAN(),
+              name="DBSCAN", data=X)
+
+
+#clustering(mixture.GaussianMixture(),
+#              name="GauMix", data=X)
+
+
+print(82 * '_')
