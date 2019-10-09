@@ -1,0 +1,94 @@
+print(__doc__)
+
+#导入模块，首先是调用一些包
+#add by yang
+import warnings
+from sklearn import cluster, datasets, mixture
+from sklearn.neighbors import kneighbors_graph
+from sklearn.preprocessing import StandardScaler
+from itertools import cycle, islice
+
+
+from time import time
+import numpy as np  #科学计算基础模块
+import matplotlib.pyplot as plt #数据可视化绘图模块
+
+from sklearn import metrics  #metrics是sklearn用来做模型评估的重要模块，提供了各种评估度量
+#from sklearn.cluster import KMeans #聚类分析算法
+from sklearn.datasets import load_digits #导入数据集
+
+from sklearn.preprocessing import scale#预处理函数，将特征数据高斯分布
+
+#准备数据，这个数据是在sklearn里自带的，是1700多个手写数字的图像，每个图像是8*8的矩阵
+np.random.seed(42)#获取随机因子
+
+digits = load_digits()#加载一个手写数据集
+data = scale(digits.data)#进行高斯分布
+
+n_samples, n_features = data.shape#获取样本总数和每个样本的特征维度
+n_digits = len(np.unique(digits.target))
+labels = digits.target
+
+
+labels_true = [0, 0, 0, 1, 1, 1]
+labels_pred = [0, 0, 1, 1, 2, 2]   
+ 
+ 
+sample_size = 300
+
+#打印获取的数据特征
+print("n_digits: %d, \t n_samples %d, \t n_features %d"
+      % (n_digits, n_samples, n_features))
+
+
+print(82 * '_')
+print('alg\t\ttime\tnmi\thomo\tcompl')
+
+#K-means聚类的结果会随着制定类别数和初始点的选择有所不同。
+#我们这里总是聚成十类，因为手写数字一共有十种。
+#至于初始点的选取我们定义三种，k-means++，随机，和PCA降到十个维度后的中心点
+
+def clustering(estimator, name, data):
+    t0 = time()
+    estimator.fit(data)
+    print('%-9s\t%.2fs\t%.3f\t%.3f\t%.3f'
+          % (name, (time() - t0), 
+#             metrics.normalized_mutual_info_score(labels_true, labels_pred),
+#             metrics.homogeneity_score(labels_true, labels_pred),
+#             metrics.completeness_score(labels_true, labels_pred),
+             
+             metrics.normalized_mutual_info_score(labels, estimator.labels_),
+             metrics.homogeneity_score(labels, estimator.labels_),
+             metrics.completeness_score(labels, estimator.labels_),
+            ))
+             
+         
+
+clustering(cluster.KMeans(init='k-means++', n_clusters=n_digits, n_init=10),
+            name="k-means", data=data)
+
+clustering(cluster.AffinityPropagation(),
+              name="Aff", data=data)
+
+clustering(cluster.MeanShift(),
+              name="MeanShift", data=data)
+
+#clustering(cluster.SpectralClustering(),
+#              name="SpectralCluster", data=data)
+
+#clustering(cluster.FeatureAgglomeration(),
+#              name="FeatureAgg", data=data)
+
+
+clustering(cluster.AgglomerativeClustering(),
+              name="AggClu", data=data)
+
+
+clustering(cluster.DBSCAN(),
+              name="DBSCAN", data=data)
+
+
+#clustering(mixture.GaussianMixture(),
+#              name="GauMix", data=data)
+
+print(82 * '_')
