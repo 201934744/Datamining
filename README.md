@@ -24,14 +24,15 @@
 -
 
 <br />  1、对第一个数据集进行聚类分析，结果输出如下：
-<br />|alg|time|nmi|homo|compl|
-<br />|k-means|0.16s|0.626|0.602|0.650|
+<br />| alg| time | nmi | homo | compl |
+      | -------- | ------ | ------ | ------ | ------ |
+<br />| k-means | 0.16s | 0.626 | 0.602 | 0.650 |
 <br />Aff|3.79s|0.655|0.932|0.460
 <br />MeanShift|5.20s|0.063|0.014|0.281
 <br />AggClu|0.12s|0.466|0.239|0.908
 <br />DBSCAN|0.31s|0.375|0.000|1.000
 <br />  2、对第二个数据集进行聚类分析，结果输出如下：
-<tr><br />alg \t\t time    nmi     homo    compl
+<tr><br />alg       time    nmi     homo    compl
 <br />k-means       3.05s   0.523   0.487   0.562
 <br />Aff             11.64s  0.411   0.885   0.191
 <br />SpectralCluster 1.63s   0.390   0.399   0.380
