@@ -68,17 +68,18 @@ def clustering(estimator, name, data):
 clustering(cluster.KMeans(init='k-means++', n_clusters=n_digits, n_init=10),
             name="k-means", data=data)
 
-clustering(cluster.AffinityPropagation(),
+clustering(cluster.AffinityPropagation(damping=0.9,preference=-200),
               name="Aff", data=data)
 
 clustering(cluster.MeanShift(),
               name="MeanShift", data=data)
 
-#clustering(cluster.SpectralClustering(),
-#              name="SpectralCluster", data=data)
+clustering(cluster.SpectralClustering(n_clusters=3,eigen_solver='arpack',
+        affinity="nearest_neighbors"),
+              name="SpectralCluster", data=data)
 
 #clustering(cluster.FeatureAgglomeration(),
-#              name="FeatureAgg", data=data)
+#             name="FeatureAgg", data=data)
 
 
 clustering(cluster.AgglomerativeClustering(),
@@ -89,7 +90,7 @@ clustering(cluster.DBSCAN(),
               name="DBSCAN", data=data)
 
 
-#clustering(mixture.GaussianMixture(),
+#clustering(mixture.GaussianMixture(n_components=3, covariance_type='full'),
 #              name="GauMix", data=data)
 
 print(82 * '_')
