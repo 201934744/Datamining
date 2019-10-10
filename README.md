@@ -40,7 +40,7 @@
             <td>0.650</td>
          </tr>
          <tr>
-            <td>Aff </td>
+            <td>AffinityPropagation </td>
             <td>3.79s </td>
             <td>0.655</td>
             <td>0.932 </td>
@@ -54,14 +54,21 @@
             <td>0.281</td>
          </tr>
          <tr>
-            <td>SpeClu </td>
-            <td>0.31s </td>
-            <td>0.514</td>
-            <td>0.272 </td>
-            <td>0.974</td>
+            <td>SpectralClustering</td>
+            <td> 0.33s </td>
+            <td>0.514  </td>
+            <td>0.272  </td>
+            <td>0.974  </td>
          </tr>
          <tr>
-            <td>AggClu </td>
+            <td>Ward </td>
+            <td>0.16s </td>
+            <td>0.466 </td>
+            <td>0.239 </td>
+            <td>0.908</td>
+         </tr>
+         <tr>
+            <td>AgglomerativeClustering </td>
             <td>0.12s </td>
             <td>0.466</td>
             <td>0.239 </td>
@@ -73,6 +80,13 @@
             <td>0.375 </td>
             <td>0.000 </td>
             <td>1.000 </td>
+         </tr>
+         <tr>
+            <td>GaussianMixture</td>
+            <td>0.11s </td>
+            <td>0.455 </td>
+            <td>0.300 </td>
+            <td>0.691 </td>
          </tr>
       <table>      
 <br />&emsp;&emsp;2、对第二个数据集进行聚类分析，结果输出如下：
