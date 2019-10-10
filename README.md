@@ -30,7 +30,7 @@
               <th>Time</th>
               <th>NMI</th>
               <th>Homo</th>
-              <th>compl</th>
+              <th>Compl</th>
         </tr>
         <tr>
             <td>k-means</td>
@@ -75,7 +75,7 @@
               <th>Time</th>
               <th>NMI</th>
               <th>Homo</th>
-              <th>compl</th>
+              <th>Compl</th>
         </tr>
         <tr>
             <td>k-means</td>
