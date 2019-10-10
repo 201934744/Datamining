@@ -52,13 +52,18 @@ print('alg\t\ttime\tnmi\thomo\tcompl')
 def clustering(estimator, name, data):
     t0 = time()
     estimator.fit(data)
+    if hasattr(estimator, 'labels_'):
+        y_pred = estimator.labels_.astype(np.int)
+    else:
+        y_pred = estimator.predict(data)
     print('%-9s\t%.2fs\t%.3f\t%.3f\t%.3f'
           % (name, (time() - t0), 
 #             metrics.normalized_mutual_info_score(labels_true, labels_pred),
 #             metrics.homogeneity_score(labels_true, labels_pred),
 #             metrics.completeness_score(labels_true, labels_pred),
              
-             metrics.normalized_mutual_info_score(labels, estimator.labels_),
+#            metrics.normalized_mutual_info_score(labels, estimator.labels_),
+             metrics.normalized_mutual_info_score(labels, y_pred,average_method='geometric'),
              metrics.homogeneity_score(labels, estimator.labels_),
              metrics.completeness_score(labels, estimator.labels_),
             ))
@@ -69,28 +74,28 @@ clustering(cluster.KMeans(init='k-means++', n_clusters=n_digits, n_init=10),
             name="k-means", data=data)
 
 clustering(cluster.AffinityPropagation(damping=0.9,preference=-200),
-              name="Aff", data=data)
+              name="AffinityPropagation", data=data)
 
 clustering(cluster.MeanShift(),
               name="MeanShift", data=data)
 
 clustering(cluster.SpectralClustering(n_clusters=3,eigen_solver='arpack',
         affinity="nearest_neighbors"),
-              name="SpectralCluster", data=data)
-
-#clustering(cluster.FeatureAgglomeration(),
-#             name="FeatureAgg", data=data)
+              name="SpectralClustering", data=data)
 
 
-clustering(cluster.AgglomerativeClustering(),
-              name="AggClu", data=data)
+clustering(cluster.AgglomerativeClustering(linkage='ward'),
+           name="Ward", data=data)
+
+clustering(cluster.AgglomerativeClustering(linkage="average"),
+              name="AgglomerativeClustering", data=data)
 
 
 clustering(cluster.DBSCAN(),
               name="DBSCAN", data=data)
 
 
-#clustering(mixture.GaussianMixture(n_components=3, covariance_type='full'),
-#              name="GauMix", data=data)
+clustering(mixture.GaussianMixture(n_components=3, covariance_type='full'),
+              name="GaussianMixture", data=data)
 
 print(82 * '_')
