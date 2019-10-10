@@ -31,8 +31,8 @@
 <br />AggClu|0.12s|0.466|0.239|0.908
 <br />DBSCAN|0.31s|0.375|0.000|1.000
 <br />  2、对第二个数据集进行聚类分析，结果输出如下：
-<tr><br />alg             time    nmi     homo    compl
-<br />k-means         3.05s   0.523   0.487   0.562
+<tr><br />alg       time    nmi     homo    compl
+<br />k-means       3.05s   0.523   0.487   0.562
 <br />Aff             11.64s  0.411   0.885   0.191
 <br />SpectralCluster 1.63s   0.390   0.399   0.380
 <br />DBSCAN          0.42s   0.016   0.002   0.168
