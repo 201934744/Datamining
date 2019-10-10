@@ -54,6 +54,13 @@
             <td>0.281</td>
          </tr>
          <tr>
+            <td>SpeClu </td>
+            <td>0.31s </td>
+            <td>0.514</td>
+            <td>0.272 </td>
+            <td>0.974</td>
+         </tr>
+         <tr>
             <td>AggClu </td>
             <td>0.12s </td>
             <td>0.466</td>
