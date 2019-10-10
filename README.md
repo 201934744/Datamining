@@ -39,22 +39,74 @@
             <td>0.602 </td>
             <td>0.650</td>
          </tr>
-      <table>
-      | alg       | time    | nmi    | homo   | compl  |
-      | :-------- | :-----  | ------ | ------ | ------ |
-      | k-means   | 0.16s   | 0.626  | 0.602  | 0.650  |
-      | Aff       | 3.79s   | 0.655  | 0.932  | 0.460  |
-      | MeanShift | 5.20s   | 0.063  | 0.014  | 0.281  |
-      | AggClu    | 0.12s   | 0.466  | 0.239  | 0.908  |
-      | DBSCAN    | 0.31s   | 0.375  | 0.000  | 1.000  |
-      
+         <tr>
+            <td>Aff </td>
+            <td>3.79s </td>
+            <td>0.655</td>
+            <td>0.932 </td>
+            <td>0.460</td>
+         </tr>
+         <tr>
+            <td>MeanShift</td>
+            <td> 5.20s </td>
+            <td>0.063</td>
+            <td>0.014 </td>
+            <td>0.281</td>
+         </tr>
+         <tr>
+            <td>AggClu </td>
+            <td>0.12s </td>
+            <td>0.466</td>
+            <td>0.239 </td>
+            <td>0.908</td>
+         </tr>
+         <tr>
+            <td>DBSCAN</td>
+            <td>0.31s </td>
+            <td>0.375 </td>
+            <td0.000 </td>
+            <td>1.000</td>
+         </tr>
+      <table>      
 <br />&emsp;&emsp;2、对第二个数据集进行聚类分析，结果输出如下：
-<tr><br />alg       time    nmi     homo    compl
-<br />k-means       3.05s   0.523   0.487   0.562
-<br />Aff             11.64s  0.411   0.885   0.191
-<br />SpectralCluster 1.63s   0.390   0.399   0.380
-<br />DBSCAN          0.42s   0.016   0.002   0.168
-  
+<br /><table>
+        <tr>
+              <th>Alg</th>
+              <th>Time</th>
+              <th>NMI</th>
+              <th>Homo</th>
+              <th>compl</th>
+        </tr>
+        <tr>
+            <td>k-means</td>
+            <td>3.05s </td>
+            <td>0.523</td>
+            <td>0.487 </td>
+            <td>0.562</td>
+         </tr>
+         <tr>
+            <td>Aff </td>
+            <td>11.64s </td>
+            <td>0.411</td>
+            <td>0.885 </td>
+            <td>0.191</td>
+         </tr>
+         <tr>
+            <td>SpectralCluster</td>
+            <td>1.63s </td>
+            <td>0.390</td>
+            <td>0.399 </td>
+            <td>0.380</td>
+         </tr>
+         <tr>
+            <td>DBSCAN </td>
+            <td>0.42s </td>
+            <td>0.016 </td>
+            <td>0.002 </td>
+            <td>0.168</td>
+         </tr>
+      <table>   
+
 <br />四、下一步考虑：
 -
 <br />&emsp;&emsp;1、部分算法未能输出结果，将代码进行查错和原因分析。
