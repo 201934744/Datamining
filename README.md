@@ -24,13 +24,30 @@
 -
 
 <br />&emsp;&emsp;1、对第一个数据集进行聚类分析，结果输出如下：
-<br />| alg       | time    | nmi    | homo   | compl  |
+<br /><table>
+        <tr>
+              <th>Alg</th>
+              <th>Time</th>
+              <th>NMI</th>
+              <th>Homo</th>
+              <th>compl</th>
+        </tr>
+        <tr>
+            <td>k-means</td>
+            <td>0.16s </td>
+            <td>0.626</td>
+            <td>0.602 </td>
+            <td>0.650</td>
+         </tr>
+      <table>
+      | alg       | time    | nmi    | homo   | compl  |
       | :-------- | :-----  | ------ | ------ | ------ |
       | k-means   | 0.16s   | 0.626  | 0.602  | 0.650  |
       | Aff       | 3.79s   | 0.655  | 0.932  | 0.460  |
       | MeanShift | 5.20s   | 0.063  | 0.014  | 0.281  |
       | AggClu    | 0.12s   | 0.466  | 0.239  | 0.908  |
       | DBSCAN    | 0.31s   | 0.375  | 0.000  | 1.000  |
+      
 <br />&emsp;&emsp;2、对第二个数据集进行聚类分析，结果输出如下：
 <tr><br />alg       time    nmi     homo    compl
 <br />k-means       3.05s   0.523   0.487   0.562
