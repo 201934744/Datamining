@@ -64,8 +64,8 @@
             <td>DBSCAN</td>
             <td>0.31s </td>
             <td>0.375 </td>
-            <td0.000 </td>
-            <td>1.000</td>
+            <td>0.000 </td>
+            <td>1.000 </td>
          </tr>
       <table>      
 <br />&emsp;&emsp;2、对第二个数据集进行聚类分析，结果输出如下：
