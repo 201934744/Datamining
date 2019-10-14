@@ -1,3 +1,4 @@
+#By 杨震201934744 2019.10.09
 <br />DataMining作业一：测试sklearn中8种聚类算法在给定的两个数据集上的聚类效果
 =
 
@@ -17,8 +18,9 @@
 <br />二、实验步骤：
 -
 
-<br />&emsp;&emsp;1、实验环境搭建：在Windows下下载安装Anaconda3，并进行环境变量设置。开始使对python环境搭建比较陌生，走不少弯路。
-<br />&emsp;&emsp;2、代码编写：详细代码见Cluster文件夹。主要包括几部分：模块导入、数据集的加载、选择聚类算法、参数调整、结果输出。
+<br />&emsp;&emsp;1、实验环境搭建：在Windows10下下载安装Anaconda3，并进行系统环境变量设置。开始使对python环境搭建比较陌生，走了不少弯路。
+<br />&emsp;&emsp;2、代码编写：详细代码和注释见Cluster文件夹。主要包括几部分：模块导入、数据集的加载、选择聚类算法、参数调整、结果输出。
+<br />&emsp;&emsp;3、存在问题与解决办法：在对第一个数据集进行聚类时，部分算法因缺少新的label标签而无法完成，增加estimator.predict(dataset.data)语句，对不能生成标签的算法进行预估，从而问题解决。在对第二个数据集进行聚类时，因数据矩阵过于稀疏导致部分算法无法完成，对数据集X增加toarray()操作，使聚类完成。
 
 <br />三、实验结果及分析：
 -
@@ -113,11 +115,25 @@
             <td>0.191</td>
          </tr>
          <tr>
+            <td>MeanShift </td>
+            <td>5.94s </td>
+            <td>0.000 </td>
+            <td>0.000 </td>
+            <td>1.000 </td>
+         </tr>
+         <tr>
             <td>SpectralCluster</td>
             <td>1.63s </td>
             <td>0.390</td>
             <td>0.399 </td>
             <td>0.380</td>
+         </tr>
+         <tr>
+            <td>Ward </td>
+            <td>54.55s </td>
+            <td>0.557 </td>
+            <td>0.517 </td>
+            <td>0.601 </td>
          </tr>
          <tr>
             <td>DBSCAN </td>
