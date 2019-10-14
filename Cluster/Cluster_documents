@@ -190,26 +190,30 @@ clustering(cluster.KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_i
 clustering(cluster.AffinityPropagation(),
               name="Aff", data=X)
 
+clustering(cluster.MeanShift(bandwidth=2,bin_seeding=True),
+
+              name="MeanShift", data=X.toarray())
+
 #clustering(cluster.MeanShift(),
 #              name="MeanShift", data=X)
 
 clustering(cluster.SpectralClustering(),
               name="SpectralCluster", data=X)
 
-#clustering(cluster.FeatureAgglomeration(),
- #             name="FeatureAgg", data=X)
 
+clustering(cluster.AgglomerativeClustering(n_clusters=true_k, linkage='ward'),
+           name="Ward", data=X.toarray())
 
-#clustering(cluster.AgglomerativeClustering(),
-#              name="AggClu", data=X)
+#clustering(cluster.AgglomerativeClustering(n_clusters=true_k,linkage="'average'"),
+ #             name="AggClu", data=X.toarray())
 
 
 clustering(cluster.DBSCAN(),
               name="DBSCAN", data=X)
 
 
-#clustering(mixture.GaussianMixture(),
-#              name="GauMix", data=X)
+#clustering(mixture.GaussianMixture(n_components=true_k, covariance_type='tied',max_iter=5),
+#              name="GaussianMixture", data=X.toarray())
 
 
 print(82 * '_')
